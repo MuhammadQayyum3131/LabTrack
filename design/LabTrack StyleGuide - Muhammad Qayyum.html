@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LabTrack Style Guide</title>
+<style>
+
+  /* =============================================
+     LabTrack — Style Guide
+     Muhammad Qayyum | Capstone Week 1
+     =============================================
+
+     These are the CSS variables used consistently
+     across the entire LabTrack application.
+  */
+
+  :root {
+    --navy:       #1E2A3A;  /* navbar, headings, primary buttons */
+    --blue:       #1E6FEB;  /* links, active states */
+    --green:      #10B981;  /* completed status, NORMAL flag */
+    --amber:      #F59E0B;  /* pending, LOW flag */
+    --red:        #EF4444;  /* flagged, HIGH flag, errors */
+    --bg:         #F4F6FA;  /* page background */
+    --border:     #E0E3E8;  /* all borders */
+    --text:       #3A4558;  /* body text */
+    --muted:      #8A94A6;  /* labels, captions */
+    --white:      #FFFFFF;
+    --font-body:  'Segoe UI', Arial, sans-serif;
+    --font-mono:  'Courier New', monospace;
+  }
+
+  /* --- Reset --- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    padding: 40px 32px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* --- Page title --- */
+  .title    { font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 40px; }
+
+  /* --- Section layout --- */
+  .section        { background: var(--white); border: 1px solid var(--border); border-radius: 5px; padding: 22px 24px; margin-bottom: 20px; }
+  .section-title  { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-family: var(--font-mono); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .row            { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+  .item           { display: flex; flex-direction: column; gap: 5px; }
+  .note           { font-size: 11px; color: var(--muted); font-family: var(--font-mono); }
+
+  /* --- 1. Colors --- */
+  .swatch       { width: 110px; }
+  .swatch-color { height: 52px; border-radius: 4px 4px 0 0; border: 1px solid var(--border); }
+  .swatch-info  { background: var(--white); border: 1px solid var(--border); border-top: none; border-radius: 0 0 4px 4px; padding: 6px 8px; }
+  .swatch-name  { font-size: 12px; font-weight: 600; color: var(--navy); }
+  .swatch-hex   { font-size: 10px; color: var(--muted); font-family: var(--font-mono); }
+  .swatch-role  { font-size: 10px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+
+  /* --- 2. Typography --- */
+  .t-h1      { font-size: 24px; font-weight: 700; color: var(--navy); }
+  .t-h2      { font-size: 18px; font-weight: 600; color: var(--navy); }
+  .t-body    { font-size: 14px; color: var(--text); }
+  .t-label   { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); font-family: var(--font-mono); }
+  .t-mono    { font-size: 12px; color: var(--muted); font-family: var(--font-mono); }
+  .t-caption { font-size: 12px; color: var(--muted); font-style: italic; }
+
+  /* --- 3. Buttons --- */
+  .btn    { display: inline-block; padding: 8px 18px; border-radius: 4px; font-size: 13px; font-weight: 500; border: none; cursor: pointer; font-family: var(--font-body); }
+  .btn-p  { background: var(--navy);  color: var(--white); }
+  .btn-s  { background: var(--white); color: var(--text);  border: 1.5px solid var(--border); }
+  .btn-d  { background: var(--red);   color: var(--white); }
+  .btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+  /* --- 4. Badges --- */
+  .badge   { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono); letter-spacing: 0.5px; }
+  .b-recv  { background: #F0F2F5; color: #6B7280; }
+  .b-prog  { background: #EFF6FF; color: var(--blue);  border: 1px solid #BFDBFE; }
+  .b-done  { background: #F0FDF4; color: var(--green); border: 1px solid #BBF7D0; }
+  .b-high  { background: #FEE2E2; color: var(--red);   border: 1px solid #FCA5A5; }
+  .b-norm  { background: #F0FDF4; color: var(--green); border: 1px solid #86EFAC; }
+  .b-low   { background: #FEF9C3; color: #B45309;      border: 1px solid #FDE68A; }
+
+  /* --- 5. Navbar --- */
+  .navbar       { background: var(--navy); padding: 0 20px; display: flex; align-items: center; height: 48px; gap: 24px; border-radius: 4px; }
+  .nav-brand    { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--white); border: 1.5px solid rgba(255,255,255,0.2); padding: 3px 9px; border-radius: 3px; }
+  .nav-links    { display: flex; gap: 2px; flex: 1; }
+  .nav-link     { font-size: 12px; color: rgba(255,255,255,0.45); padding: 5px 10px; border-radius: 3px; }
+  .nav-link.on  { color: var(--white); background: rgba(255,255,255,0.1); }
+  .nav-user     { font-size: 11px; color: rgba(255,255,255,0.4); font-family: var(--font-mono); }
+
+  /* --- 6. Form inputs --- */
+  .form-label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-family: var(--font-mono); margin-bottom: 5px; }
+  .form-input { width: 100%; background: var(--white); border: 1.5px solid var(--border); border-radius: 4px; padding: 8px 11px; font-size: 14px; font-family: var(--font-body); color: var(--navy); }
+  .form-input.focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(30,111,235,0.1); }
+  .form-input.err   { border-color: var(--red); }
+  .form-err   { font-size: 11px; color: var(--red); margin-top: 3px; }
+
+</style>
+</head>
+<body>
+
+  <div class="title">LabTrack &mdash; Style Guide</div>
+
+
+
+  <!-- 1. COLORS -->
+  <div class="section">
+    <div class="section-title">1. Colors</div>
+    <div class="row">
+
+      <div class="item">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#1E2A3A;"></div>
+          <div class="swatch-info"><div class="swatch-name">Navy</div><div class="swatch-hex">#1E2A3A</div><div class="swatch-role">Navbar, headings, primary buttons</div></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#1E6FEB;"></div>
+          <div class="swatch-info"><div class="swatch-name">Blue</div><div class="swatch-hex">#1E6FEB</div><div class="swatch-role">Links, active states</div></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#10B981;"></div>
+          <div class="swatch-info"><div class="swatch-name">Green</div><div class="swatch-hex">#10B981</div><div class="swatch-role">Completed, NORMAL flag</div></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F59E0B;"></div>
+          <div class="swatch-info"><div class="swatch-name">Amber</div><div class="swatch-hex">#F59E0B</div><div class="swatch-role">Pending, LOW flag</div></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#EF4444;"></div>
+          <div class="swatch-info"><div class="swatch-name">Red</div><div class="swatch-hex">#EF4444</div><div class="swatch-role">Flagged, HIGH flag, errors</div></div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F4F6FA; border:1px solid #E0E3E8;"></div>
+          <div class="swatch-info"><div class="swatch-name">Background</div><div class="swatch-hex">#F4F6FA</div><div class="swatch-role">Page background</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 2. TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-title">2. Typography &mdash; Segoe UI / Arial (body) &nbsp;|&nbsp; Courier New (labels &amp; IDs)</div>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <div><div class="t-h1">Page Heading &mdash; 24px, Bold, Navy</div><div class="note">Main page titles (Dashboard, Register New Sample)</div></div>
+      <div><div class="t-h2">Section Heading &mdash; 18px, Semi-bold, Navy</div><div class="note">Card titles, panel headings</div></div>
+      <div><div class="t-body">Body Text &mdash; 14px, Regular &mdash; used for all content, table cells, and form inputs.</div><div class="note">color: #3A4558</div></div>
+      <div><div class="t-label">Field Label / Table Header &mdash; 10px, Mono, Uppercase</div><div class="note">Form labels, table column headers</div></div>
+      <div><div class="t-mono">S-2026-001 &mdash; 12px Monospace &mdash; Sample IDs, result values, timestamps</div></div>
+      <div><div class="t-caption">Caption / helper text &mdash; 12px, Italic, Muted</div></div>
+    </div>
+  </div>
+
+
+  <!-- 3. BUTTONS -->
+  <div class="section">
+    <div class="section-title">3. Buttons</div>
+    <div class="row" style="align-items:flex-end;">
+      <div class="item"><button class="btn btn-p">Primary</button><div class="note">Register Sample, Sign In</div></div>
+      <div class="item"><button class="btn btn-s">Secondary</button><div class="note">Cancel, Go Back</div></div>
+      <div class="item"><button class="btn btn-d">Danger</button><div class="note">Destructive actions</div></div>
+      <div class="item"><button class="btn btn-p" disabled>Disabled</button><div class="note">40% opacity — blocked action</div></div>
+    </div>
+  </div>
+
+
+  <!-- 4. BADGES -->
+  <div class="section">
+    <div class="section-title">4. Badges</div>
+    <p style="font-size:12px; color:#8A94A6; margin-bottom:10px;">Sample status badges (set by the workflow)</p>
+    <div class="row" style="margin-bottom:16px;">
+      <div class="item"><span class="badge b-recv">Received</span><div class="note">Sample just registered</div></div>
+      <div class="item"><span class="badge b-prog">In Progress</span><div class="note">Test running</div></div>
+      <div class="item"><span class="badge b-done">Completed</span><div class="note">Test done</div></div>
+    </div>
+    <p style="font-size:12px; color:#8A94A6; margin-bottom:10px;">Result flag badges (auto-assigned by the service layer — not entered manually)</p>
+    <div class="row">
+      <div class="item"><span class="badge b-high">&#9650; HIGH</span><div class="note">Above reference max</div></div>
+      <div class="item"><span class="badge b-norm">&#10003; NORMAL</span><div class="note">Within reference range</div></div>
+      <div class="item"><span class="badge b-low">&#9660; LOW</span><div class="note">Below reference min</div></div>
+    </div>
+  </div>
+
+
+  <!-- 5. NAVBAR -->
+  <div class="section">
+    <div class="section-title">5. Navigation Bar</div>
+    <nav class="navbar">
+      <div class="nav-brand">LabTrack</div>
+      <div class="nav-links">
+        <div class="nav-link on">Dashboard</div>
+        <div class="nav-link">Samples</div>
+        <div class="nav-link">New Sample</div>
+      </div>
+      <div class="nav-user">Muhammad &nbsp;|&nbsp; Logout</div>
+    </nav>
+    <div class="note" style="margin-top:8px;">Dark navy bar, 48px tall. Active page link shown in white. Inactive links at 45% opacity.</div>
+  </div>
+
+
+  <!-- 6. FORM INPUTS -->
+  <div class="section">
+    <div class="section-title">6. Form Inputs</div>
+    <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;">
+
+      <div style="width:200px;">
+        <label class="form-label">Default</label>
+        <input class="form-input" type="text" placeholder="Enter value..." />
+        <div class="note" style="margin-top:4px;">Gray border</div>
+      </div>
+
+      <div style="width:200px;">
+        <label class="form-label">Focused</label>
+        <input class="form-input focus" type="text" value="John Doe" />
+        <div class="note" style="margin-top:4px;">Blue border + glow</div>
+      </div>
+
+      <div style="width:200px;">
+        <label class="form-label">Error</label>
+        <input class="form-input err" type="text" placeholder="Required" />
+        <div class="form-err">This field is required.</div>
+        <div class="note" style="margin-top:4px;">Red border + message</div>
+      </div>
+
+    </div>
+  </div>
+
+
+</body>
+</html>
