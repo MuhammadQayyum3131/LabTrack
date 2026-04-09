@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LabTrack - Sample Detail</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/dashboard" class="navbar-brand">[ LabTrack ]</a>
+    <div class="navbar-nav">
+        <a href="/dashboard" class="navbar-link">Dashboard</a>
+        <a href="/samples/new" class="navbar-link">New Sample</a>
+    </div>
+    <div class="navbar-user">
+        <span th:text="${#authentication.name}"></span>
+        &nbsp;|&nbsp;
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<div class="page-content">
+
+    <!-- Header -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
+        <div>
+            <div class="page-title"
+                 th:text="'Sample  S-' + ${sample.sampleID}"></div>
+            <div class="page-subtitle"
+                 th:text="${sample.patientName} + '  ·  ' +
+                           ${sample.testType.name} + '  ·  Collected ' +
+                           ${sample.collectionDate}"></div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+            <a href="/dashboard" class="btn btn-secondary btn-sm">
+                ← Back to Dashboard
+            </a>
+            <!-- Advance status button -->
+            <form th:if="${sample.status.name() != 'COMPLETED'}"
+                  th:action="'/samples/' + ${sample.sampleID} + '/status'"
+                  method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+                <button type="submit" class="btn btn-blue btn-sm"
+                        th:text="${sample.status.name() == 'RECEIVED'} ?
+                                 'Mark as In Progress' : 'Mark as Completed'">
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detail Grid -->
+    <div class="detail-grid">
+        <div class="detail-cell">
+            <div class="detail-label">Sample ID</div>
+            <div class="detail-value"
+                 th:text="'S-' + ${sample.sampleID}"></div>
+        </div>
+        <div class="detail-cell">
+            <div class="detail-label">Status</div>
+            <div class="detail-value">
+                <span th:if="${sample.status.name() == 'RECEIVED'}"
+                      class="badge badge-received">Received</span>
+                <span th:if="${sample.status.name() == 'IN_PROGRESS'}"
+                      class="badge badge-progress">In Progress</span>
+                <span th:if="${sample.status.name() == 'COMPLETED'}"
+                      class="badge badge-completed">Completed</span>
+            </div>
+        </div>
+        <div class="detail-cell">
+            <div class="detail-label">Patient Name</div>
+            <div class="detail-value" th:text="${sample.patientName}"></div>
+        </div>
+        <div class="detail-cell">
+            <div class="detail-label">Test Type</div>
+            <div class="detail-value" th:text="${sample.testType.name}"></div>
+        </div>
+        <div class="detail-cell">
+            <div class="detail-label">Collection Date</div>
+            <div class="detail-value" th:text="${sample.collectionDate}"></div>
+        </div>
+        <div class="detail-cell">
+            <div class="detail-label">Technician</div>
+            <div class="detail-value"
+                 th:text="${sample.createdBy.fullName}"></div>
+        </div>
+    </div>
+
+    <!-- Notes -->
+    <div th:if="${sample.notes != null and !sample.notes.isEmpty()}"
+         style="background:white; border:1.5px solid var(--border);
+                border-radius:5px; padding:16px; margin-bottom:20px;">
+        <div class="detail-label" style="margin-bottom:6px;">Notes</div>
+        <div style="font-size:14px;" th:text="${sample.notes}"></div>
+    </div>
+
+    <!-- Result Section -->
+    <div class="result-card">
+
+        <!-- No result yet + sample not completed -->
+        <div th:if="${sample.result == null and sample.status.name() != 'COMPLETED'}">
+            <div style="font-size:13px; font-weight:700; color:var(--navy);
+                        margin-bottom:8px;">Result Entry</div>
+            <div style="background:#F5F5F5; border:1.5px dashed #CCCCCC;
+                        border-radius:4px; padding:16px; color:var(--muted);
+                        font-size:13px;">
+                ⚠ Result entry is disabled until status = Completed.
+            </div>
+        </div>
+
+        <!-- No result yet + sample is completed -->
+        <div th:if="${sample.result == null and sample.status.name() == 'COMPLETED'}">
+            <div style="font-size:13px; font-weight:700; color:var(--navy);
+                        margin-bottom:12px;">
+                Enter Result
+                <span style="font-weight:400; color:var(--muted); font-size:12px;"
+                      th:text="'— ' + ${sample.testType.name} +
+                               ' Ref: ' + ${sample.testType.referenceMin} +
+                               ' – ' + ${sample.testType.referenceMax} +
+                               ' ' + ${sample.testType.unit}"></span>
+            </div>
+            <form th:action="'/samples/' + ${sample.sampleID} + '/result'"
+                  method="post"
+                  style="display:flex; gap:12px; align-items:flex-end;">
+                <div>
+                    <label class="form-label">Result Value
+                        (<span th:text="${sample.testType.unit}"></span>)
+                    </label>
+                    <input type="number" name="value" step="0.01"
+                           class="form-control" style="width:160px;"
+                           placeholder="e.g. 105.5" required>
+                </div>
+                <input type="hidden" th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+                <button type="submit" class="btn btn-primary">
+                    Submit Result
+                </button>
+            </form>
+        </div>
+
+        <!-- Result already entered -->
+        <div th:if="${sample.result != null}">
+            <div style="font-size:13px; font-weight:700; color:var(--green);
+                        margin-bottom:12px;">✓ Result Recorded</div>
+            <div style="display:flex; gap:40px; align-items:flex-start;">
+                <div>
+                    <div class="detail-label">Result Value</div>
+                    <div class="result-value"
+                         th:text="${sample.result.value} +
+                                  ' ' + ${sample.testType.unit}"></div>
+                </div>
+                <div>
+                    <div class="detail-label">Auto-Assigned Flag</div>
+                    <div style="margin-top:6px;">
+                        <span th:if="${sample.result.flag.name() == 'HIGH'}"
+                              class="badge badge-high"
+                              style="font-size:13px; padding:5px 12px;">
+                            ▲ HIGH — Above <span th:text="${sample.testType.referenceMax}"></span>
+                        </span>
+                        <span th:if="${sample.result.flag.name() == 'LOW'}"
+                              class="badge badge-low"
+                              style="font-size:13px; padding:5px 12px;">
+                            ▼ LOW — Below <span th:text="${sample.testType.referenceMin}"></span>
+                        </span>
+                        <span th:if="${sample.result.flag.name() == 'NORMAL'}"
+                              class="badge badge-normal"
+                              style="font-size:13px; padding:5px 12px;">
+                            ✓ NORMAL
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <div class="detail-label">Entered At</div>
+                    <div style="font-size:14px;"
+                         th:text="${sample.result.enteredAt}"></div>
+                </div>
+            </div>
+            <div style="margin-top:12px; font-size:12px; color:var(--muted);
+                        font-style:italic;">
+                Result is read-only. No further edits permitted.
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

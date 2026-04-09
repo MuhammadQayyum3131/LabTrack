@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LabTrack - Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/dashboard" class="navbar-brand">[ LabTrack ]</a>
+    <div class="navbar-nav">
+        <a href="/dashboard" class="navbar-link active">Dashboard</a>
+        <a href="/samples/new" class="navbar-link">New Sample</a>
+    </div>
+    <div class="navbar-user">
+        <span th:text="${#authentication.name}"></span>
+        &nbsp;|&nbsp;
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<div class="page-content">
+    <div class="page-title">Dashboard</div>
+    <div class="page-subtitle">Welcome back, <span th:text="${#authentication.name}"></span></div>
+
+    <!-- Stat Cards -->
+    <div class="stat-grid">
+        <div class="stat-card stat-default">
+            <div class="stat-label">Total Samples</div>
+            <div class="stat-value" th:text="${totalCount}">0</div>
+        </div>
+        <div class="stat-card stat-warning">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value" th:text="${pendingCount}">0</div>
+        </div>
+        <div class="stat-card stat-success">
+            <div class="stat-label">Completed</div>
+            <div class="stat-value" th:text="${completedCount}">0</div>
+        </div>
+        <div class="stat-card stat-danger">
+            <div class="stat-label">Flagged</div>
+            <div class="stat-value" th:text="${flaggedCount}">0</div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+        <div class="table-toolbar">
+            <input type="text" class="search-input"
+                   placeholder="Search by patient name..."
+                   onkeyup="filterTable(this.value)">
+            <a href="/samples/new" class="btn btn-primary btn-sm">+ New Sample</a>
+        </div>
+
+        <table id="sampleTable">
+            <thead>
+            <tr>
+                <th>Sample ID</th>
+                <th>Patient Name</th>
+                <th>Test Type</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Flag</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="sample : ${samples}"
+                th:onclick="|window.location='/samples/' + ${sample.sampleID}|"
+                style="cursor:pointer">
+                <td th:text="'S-' + ${sample.sampleID}"></td>
+                <td th:text="${sample.patientName}"></td>
+                <td th:text="${sample.testType.name}"></td>
+                <td th:text="${sample.collectionDate}"></td>
+                <td>
+                        <span th:if="${sample.status.name() == 'RECEIVED'}"
+                              class="badge badge-received">Received</span>
+                    <span th:if="${sample.status.name() == 'IN_PROGRESS'}"
+                          class="badge badge-progress">In Progress</span>
+                    <span th:if="${sample.status.name() == 'COMPLETED'}"
+                          class="badge badge-completed">Completed</span>
+                </td>
+                <td>
+                    <span th:if="${sample.result == null}">—</span>
+                    <span th:if="${sample.result != null and sample.result.flag.name() == 'HIGH'}"
+                          class="badge badge-high">▲ HIGH</span>
+                    <span th:if="${sample.result != null and sample.result.flag.name() == 'LOW'}"
+                          class="badge badge-low">▼ LOW</span>
+                    <span th:if="${sample.result != null and sample.result.flag.name() == 'NORMAL'}"
+                          class="badge badge-normal">✓ NORMAL</span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(samples)}">
+                <td colspan="6" style="text-align:center; color:#8A94A6; padding:32px">
+                    No samples registered yet. Click "+ New Sample" to get started.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function filterTable(value) {
+    const rows = document.querySelectorAll('#sampleTable tbody tr');
+    rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(value.toLowerCase()) ? '' : 'none';
+    });
+}
+</script>
+
+</body>
+</html>

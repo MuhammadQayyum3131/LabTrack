@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LabTrack - New Sample</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/dashboard" class="navbar-brand">[ LabTrack ]</a>
+    <div class="navbar-nav">
+        <a href="/dashboard" class="navbar-link">Dashboard</a>
+        <a href="/samples/new" class="navbar-link active">New Sample</a>
+    </div>
+    <div class="navbar-user">
+        <span th:text="${#authentication.name}"></span>
+        &nbsp;|&nbsp;
+        <a href="/logout">Logout</a>
+    </div>
+</nav>
+
+<div class="page-content">
+    <div class="page-title">Register New Sample</div>
+    <div class="page-subtitle">Sample ID will be auto-generated on submission</div>
+
+    <div style="display: flex; gap: 24px; align-items: flex-start;">
+
+        <!-- Form -->
+        <div class="form-card">
+            <form method="post" action="/samples/new">
+                <div class="form-group">
+                    <label class="form-label">Patient Name *</label>
+                    <input type="text" name="patientName" class="form-control"
+                           placeholder="Enter patient name..." required autofocus>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label class="form-label">Test Type *</label>
+                        <select name="testTypeId" class="form-control" required>
+                            <option value="">Select test type...</option>
+                            <option th:each="tt : ${testTypes}"
+                                    th:value="${tt.testTypeID}"
+                                    th:text="${tt.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Collection Date *</label>
+                        <input type="date" name="collectionDate"
+                               class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes (Optional)</label>
+                    <textarea name="notes" class="form-control"
+                              rows="3"
+                              placeholder="Add any additional notes..."></textarea>
+                </div>
+                <input type="hidden" th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+                <div style="display: flex; gap: 12px; margin-top: 8px;">
+                    <button type="submit" class="btn btn-primary">
+                        Register Sample
+                    </button>
+                    <a href="/dashboard" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Panel -->
+        <div style="background:white; border:1.5px solid var(--border);
+                    border-radius:5px; padding:20px; min-width:220px;">
+            <div style="font-size:13px; font-weight:700; color:var(--navy);
+                        margin-bottom:12px;">Auto-Flagging Logic</div>
+            <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">
+                When a result is entered, the system compares it against the
+                reference range for the selected test type.
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                <span class="badge badge-high">▲ HIGH</span>
+                <span style="font-size:12px; color:var(--muted);">Above reference max</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                <span class="badge badge-normal">✓ NORMAL</span>
+                <span style="font-size:12px; color:var(--muted);">Within reference range</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+                <span class="badge badge-low">▼ LOW</span>
+                <span style="font-size:12px; color:var(--muted);">Below reference min</span>
+            </div>
+            <hr style="border:none; border-top:1px solid var(--border); margin-bottom:12px;">
+            <div style="font-size:13px; font-weight:700; color:var(--navy);
+                        margin-bottom:10px;">Status Workflow</div>
+            <div style="font-size:12px; color:var(--muted);">
+                <span class="badge badge-received">Received</span>
+                <div style="margin:4px 0 4px 8px;">↓</div>
+                <span class="badge badge-progress">In Progress</span>
+                <div style="margin:4px 0 4px 8px;">↓</div>
+                <span class="badge badge-completed">Completed</span>
+                <div style="margin-top:8px; font-style:italic;">
+                    Forward-only. No skipping.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
