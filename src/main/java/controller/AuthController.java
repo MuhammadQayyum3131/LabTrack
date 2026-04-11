@@ -14,6 +14,10 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/")
+    public String root() {
+        return "redirect:/login";
+    }
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
                             @RequestParam(value = "logout", required = false) String logout,
