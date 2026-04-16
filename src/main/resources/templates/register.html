@@ -8,8 +8,21 @@
 <body>
 <div class="login-wrapper">
     <div class="login-card">
-        <div class="login-title">[ LabTrack ]</div>
-        <div class="login-subtitle">Create a new account</div>
+        <div class="login-title" style="display:flex; align-items:center; justify-content:center; gap:10px;">
+            <svg viewBox="0 0 46 52" height="42" xmlns="http://www.w3.org/2000/svg">
+                <line x1="16" y1="4" x2="16" y2="20" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="28" y1="4" x2="28" y2="20" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="16" y1="20" x2="8" y2="34" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="28" y1="20" x2="36" y2="34" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M8 34 Q22 46 36 34" fill="none" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M15 24 L7 35 Q22 48 37 35 L30 24 Z" fill="#10B981" opacity="0.8"/>
+                <circle cx="20" cy="37" r="2.5" fill="#ffffff" opacity="0.7"/>
+                <circle cx="28" cy="34" r="2" fill="#ffffff" opacity="0.55"/>
+                <line x1="11" y1="4" x2="33" y2="4" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span style="color:#1E2A3A; font-family:'Segoe UI',Arial,sans-serif; font-size:26px; font-weight:700;">Lab<span style="color:#10B981;">Track</span></span>
+        </div>
+        <div class="login-subtitle" style="text-align:center;">Laboratory Sample Tracking System</div>
 
         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
