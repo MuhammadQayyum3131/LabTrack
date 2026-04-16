@@ -46,9 +46,7 @@
 
     <!-- Header -->
     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
-        <div>
-            <div class="page-title"
-                 th:text="'Sample  S-' + ${sample.sampleID}"></div>
+        <div class="page-title" th:text="'Sample  S-2026-' + ${sample.sampleID}"></div>
             <div class="page-subtitle"
                  th:text="${sample.patientName} + '  ·  ' +
                            ${sample.testType.name} + '  ·  Collected ' +
@@ -76,8 +74,7 @@
     <div class="detail-grid">
         <div class="detail-cell">
             <div class="detail-label">Sample ID</div>
-            <div class="detail-value"
-                 th:text="'S-' + ${sample.sampleID}"></div>
+            <div class="detail-value" th:text="'S-2026-' + ${sample.sampleID}"></div>
         </div>
         <div class="detail-cell">
             <div class="detail-label">Status</div>

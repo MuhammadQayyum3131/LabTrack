@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import java.time.Year;
 
 @Controller
 public class DashboardController {
@@ -15,7 +16,9 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
+        int year = Year.now().getValue();
         model.addAttribute("samples", sampleService.getAllSamples());
+        model.addAttribute("currentYear", year);
         model.addAttribute("totalCount", sampleService.getAllSamples().size());
         model.addAttribute("pendingCount", sampleService.countByStatus(Sample.Status.RECEIVED)
                 + sampleService.countByStatus(Sample.Status.IN_PROGRESS));

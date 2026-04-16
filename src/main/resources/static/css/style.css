@@ -384,3 +384,10 @@ tbody tr:hover td { background: #FAFBFC; cursor: pointer; }
 }
 
 .login-footer a { color: var(--blue); text-decoration: none; }
+
+/* Flagged row highlight */
+tbody tr.high-row td { background: #FFF5F5; }
+tbody tr.high-row:hover td { background: #FEE2E2; }
+
+tbody tr.low-row td { background: #FFFBEB; }
+tbody tr.low-row:hover td { background: #FEF3C7; }

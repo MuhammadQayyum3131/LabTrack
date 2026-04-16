@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -43,11 +45,14 @@ public class SampleController {
                                  @RequestParam Long testTypeId,
                                  @RequestParam String collectionDate,
                                  @RequestParam(required = false) String notes,
-                                 Principal principal) {
+                                 Principal principal,
+                                 RedirectAttributes redirectAttributes) {
         User user = userService.findByUsername(principal.getName());
         TestType testType = testTypeService.getTestTypeById(testTypeId).orElseThrow();
         sampleService.registerSample(patientName, LocalDate.parse(collectionDate),
                 testType, notes, user);
+        redirectAttributes.addFlashAttribute("success",
+                "Sample registered successfully for " + patientName + ".");
         return "redirect:/dashboard";
     }
 

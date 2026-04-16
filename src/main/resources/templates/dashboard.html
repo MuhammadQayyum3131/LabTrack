@@ -43,6 +43,7 @@
 </nav>
 
 <div class="page-content">
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     <div class="page-title">Dashboard</div>
     <div class="page-subtitle">Welcome back, <span th:text="${#authentication.name}"></span></div>
 
@@ -89,8 +90,9 @@
             <tbody>
             <tr th:each="sample : ${samples}"
                 th:onclick="|window.location='/samples/' + ${sample.sampleID}|"
+                th:classappend="${sample.result != null and sample.result.flag.name() == 'HIGH'} ? 'high-row' : (${sample.result != null and sample.result.flag.name() == 'LOW'} ? 'low-row' : '')"
                 style="cursor:pointer">
-                <td th:text="'S-' + ${sample.sampleID}"></td>
+                <td th:text="'S-' + ${currentYear} + '-' + ${#strings.toString(sample.sampleID).length() == 1 ? '00' + sample.sampleID : (#strings.toString(sample.sampleID).length() == 2 ? '0' + sample.sampleID : sample.sampleID)}"></td>
                 <td th:text="${sample.patientName}"></td>
                 <td th:text="${sample.testType.name}"></td>
                 <td th:text="${sample.collectionDate}"></td>
