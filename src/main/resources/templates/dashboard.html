@@ -115,8 +115,28 @@
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(samples)}">
-                <td colspan="6" style="text-align:center; color:#8A94A6; padding:32px">
-                    No samples registered yet. Click "+ New Sample" to get started.
+                <td colspan="6">
+                    <div style="text-align:center; padding:48px 20px;">
+                        <svg viewBox="0 0 46 52" height="48" xmlns="http://www.w3.org/2000/svg"
+                             style="opacity:0.25; margin-bottom:16px;">
+                            <line x1="16" y1="4" x2="16" y2="20" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                            <line x1="28" y1="4" x2="28" y2="20" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                            <line x1="16" y1="20" x2="8" y2="34" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                            <line x1="28" y1="20" x2="36" y2="34" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M8 34 Q22 46 36 34" fill="none" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M15 24 L7 35 Q22 48 37 35 L30 24 Z" fill="#1E2A3A" opacity="0.5"/>
+                            <line x1="11" y1="4" x2="33" y2="4" stroke="#1E2A3A" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                        <div style="font-size:15px; font-weight:600; color:#3A4558; margin-bottom:8px;">
+                            No samples yet
+                        </div>
+                        <div style="font-size:13px; color:#8A94A6; margin-bottom:20px;">
+                            Register your first patient sample to get started.
+                        </div>
+                        <a href="/samples/new" class="btn btn-primary btn-sm">
+                            + Register First Sample
+                        </a>
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -134,5 +154,9 @@ function filterTable(value) {
 }
 </script>
 
+<footer class="footer">
+    LabTrack &copy; 2026 &nbsp;·&nbsp; Laboratory Sample Tracking System
+    &nbsp;·&nbsp; <a href="https://github.com/MuhammadQayyum3131/LabTrack">GitHub</a>
+</footer>
 </body>
 </html>
